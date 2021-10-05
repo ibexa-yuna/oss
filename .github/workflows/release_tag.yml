@@ -77,6 +77,7 @@ jobs:
     # this step is needed, so the output gets to the next defined job
     outputs:
       matrix: ${{ steps.output_data.outputs.matrix }}
+      prevrelease: ${{ steps.prevfull.outputs.tag }}
 
   get_package_changelogs:
     needs: provide_changed_packages
@@ -93,6 +94,7 @@ jobs:
         uses: ibexa/version-logic-action@master
         with:
           currentTag: ${{ env.BUILD_TAG }}
+          prevFullTag: ${{ needs.provide_changed_packages.outputs.prevrelease }}
 
       - name: Checkout Generator
         uses: actions/checkout@v2
